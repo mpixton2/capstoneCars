@@ -1,0 +1,15 @@
+/* SearchBox.css */
+.search-box {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .search-box input {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
