@@ -34,20 +34,57 @@ app.get('/cars', async (req, res) => {
     }
 });
 
+app.get('/carslimit', async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
+        const limit = parseInt(req.query.limit) || 10; // Default to 10 cars per page
+
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(cars_collection);
+
+        const skip = (page - 1) * limit;
+
+        const cars = await collection.find({}).skip(skip).limit(limit).toArray();
+
+        res.json(cars);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Failed to retrieve any cars");
+    }
+});
+
+app.get('/cars/count', async (req, res) => {
+    try {
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(cars_collection);
+
+        const count = await collection.countDocuments({});
+
+        res.json({ count });
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Failed to retrieve car count");
+    }
+});
+
+
+
 app.get('/cars/:id', async (req, res) => {
     try {
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
-        const { id } = req.params
-        console.log(id)
+        const { id } = req.params;
         const collection = db.collection(cars_collection);
         const car = await collection.findOne({ "car_id": Number(id) });
-        res.json(car)
-    }
-    catch (err) {
-        res.status(500).send("Failed to retrieve car")
+        res.json(car);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Failed to retrieve car");
     }
 });
+
 
 app.get('/orders/:id', async (req, res) => {
     try {
@@ -77,6 +114,7 @@ app.get('/orders', async (req, res) => {
         res.status(500).send("Failed to retrieve any cars");
     }
 });
+  
 
 app.get('/orders_cars/:id', async (req, res) => {
     try {
@@ -87,7 +125,7 @@ app.get('/orders_cars/:id', async (req, res) => {
         const collection = await db.collection(orders_cars_collection);
         const orders_cars = await collection.find({ "order_id": Number(id) });
 
-        res.json(await  orders_cars.toArray())
+        res.json(await orders_cars.toArray())
     }
     catch (err) {
         console.error(err)
@@ -95,33 +133,39 @@ app.get('/orders_cars/:id', async (req, res) => {
     }
 });
 
+
+
 app.post('/orders', async (req, res) => {
     try {
-        const order  = req.body;
-        const client = await MongoClient.connect(url);
-        const db = client.db(dbName);
-        const collection = db.collection(orders_collection);
-        const result = await collection.insertOne(order);
-        res.json(result);
+      // Create the order with the calculated next order ID
+      const order = req.body;
+      order.order_id = nextOrderId;
+  
+      const client = await MongoClient.connect(url);
+      const db = client.db(dbName);
+      const collection = db.collection(orders_collection);
+      const result = await collection.insertOne(order);
+      res.json(result);
     } catch (err) {
-        console.error('Error:', err);
-        res.status(500).send('Failed to add a new order');
+      console.error('Error:', err);
+      res.status(500).send('Failed to add a new order');
     }
-});
+  });
+  
 
-app.post('/orders_cars', async (req, res) => {
+  app.post('/orders_cars', async (req, res) => {
     try {
-        const order_car  = req.body;
-        const client = await MongoClient.connect(url);
-        const db = client.db(dbName);
-        const collection = db.collection(orders_cars_collection);
-        const result = await collection.insertOne(order_car);
-        res.json(result);
+      const orderCar = req.body;
+      const client = await MongoClient.connect(url);
+      const db = client.db(dbName);
+      const collection = db.collection(orders_cars_collection);
+      const result = await collection.insertOne(orderCar);
+      res.json(result);
     } catch (err) {
-        console.error('Error:', err);
-        res.status(500).send('Failed to add a new order_car');
+      console.error('Error:', err);
+      res.status(500).send('Failed to add a new order_car');
     }
-});
+  });
 
 app.post('/cars/search', async (req, res) => {
     try {
@@ -129,7 +173,7 @@ app.post('/cars/search', async (req, res) => {
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
         const collection = db.collection(cars_collection);
-        const result = await collection.find({'car_color': searchTerm}).toArray();
+        const result = await collection.find({ 'car_color': searchTerm }).toArray();
         res.json(result);
     } catch (err) {
         console.error('Error:', err);
@@ -142,14 +186,36 @@ app.put('/orders/:id', async (req, res) => {
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
         const { id } = req.params
-        const  body = req.body
-        console.log(id,body)
+        const body = req.body
+        console.log(id, body)
         const collection = db.collection(orders_collection);
-        const order = await collection.updateOne({ "order_id": Number(id) }, {$set: body});
+        const order = await collection.updateOne({ "order_id": Number(id) }, { $set: body });
         res.json(order)
     }
     catch (err) {
         res.status(500).send("Failed to retrieve order")
+    }
+});
+
+app.delete('/orders_cars/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(orders_cars_collection);
+
+        const result = await collection.deleteOne({ _id: ObjectId(id) });
+        client.close();
+
+        if (result.deletedCount === 1) {
+            res.json({ message: 'Item deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Item not found' });
+        }
+    } catch (err) {
+        console.error('Error deleting item from cart:', err);
+        res.status(500).send('Failed to delete item from cart');
     }
 });
 
