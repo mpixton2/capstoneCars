@@ -137,14 +137,17 @@ app.get('/orders_cars/:id', async (req, res) => {
 
 app.post('/orders', async (req, res) => {
     try {
-      // Create the order with the calculated next order ID
       const order = req.body;
-      order.order_id = nextOrderId;
+      const nextOrderId = order.order_id; 
   
       const client = await MongoClient.connect(url);
       const db = client.db(dbName);
       const collection = db.collection(orders_collection);
+      
       const result = await collection.insertOne(order);
+      
+      client.close();
+  
       res.json(result);
     } catch (err) {
       console.error('Error:', err);
