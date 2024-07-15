@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchBox from '../components/SearchBox';
 import CarList from '../components/CarList';
+import RecommendedCars from '../components/RecommendedCars';
 import Navbar from '../components/Navbar';
 import { Container, Row, Col } from 'react-bootstrap'; // Import necessary Bootstrap components
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
@@ -8,13 +9,18 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const HomePage = () => {
   const [cars, setCars] = useState([]);
+  const [recommendedCars, setRecommendedCars] = useState([]);
 
   useEffect(() => {
-    // Fetch cars from the backend
     fetch('/api/cars')
       .then(response => response.json())
       .then(data => setCars(data))
       .catch(error => console.error('Error fetching cars:', error));
+
+    fetch('/api/recommended-cars')
+      .then(response => response.json())
+      .then(data => setRecommendedCars(data))
+      .catch(error => console.error('Error fetching recommended cars:', error));
   }, []);
 
   return (
@@ -39,3 +45,7 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+
+
+
