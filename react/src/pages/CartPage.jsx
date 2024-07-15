@@ -4,41 +4,24 @@ import { Container, Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CartPage = () => {
-  const [orderId] = useParams();
-  const [cartItems, setCartItems] = useState([]);
-  const [order, setOrder] = useState([]);
-  const [car, setCar] = useState([]);
+  const { orderId } = useParams(); // Assuming orderId is passed as a route parameter
+  const [orderCars, setOrderCars] = useState([]);
 
   useEffect(() => {
-    const fetchOrder = async () => {
+    const fetchOrderCars = async () => {
       try {
         const response = await fetch(`http://localhost:3000/orders_cars/${orderId}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch cart');
+          throw new Error('Failed to fetch order cars');
         }
-        const data = await response.json();
-        setOrder(data);
+        const orderCarsData = await response.json();
+        setOrderCars(orderCarsData);
       } catch (error) {
-        console.error('Error fetching cart:', error);
-      }
-    };
-    const fetchCars = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/orders_cars/${carId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch car');
-        }
-        const data = await response.json();
-        setCar(data);
-      } catch (error) {
-        console.error('Error fetching car:', error);
+        console.error('Error fetching order cars:', error);
       }
     };
 
-    fetchCar();
-  }, [carId]);
-    fetchOrder();
-    fetchCars();
+    fetchOrderCars();
   }, [orderId]);
 
   const handleRemoveItem = async (itemId) => {
@@ -49,7 +32,7 @@ const CartPage = () => {
       if (!response.ok) {
         throw new Error('Failed to remove item from cart');
       }
-      setCartItems(cartItems.filter(item => item._id !== itemId));
+      setOrderCars(orderCars.filter((item) => item._id !== itemId));
     } catch (error) {
       console.error('Error removing item from cart:', error);
     }
@@ -57,13 +40,14 @@ const CartPage = () => {
 
   return (
     <div>
+      <Navbar />
       <Container className="pt-4">
         <h1>Your Cart</h1>
-        {cartItems.length === 0 ? (
+        {orderCars.length === 0 ? (
           <p>Your cart is empty</p>
         ) : (
           <div>
-            {cartItems.map((item) => (
+            {orderCars.map((item) => (
               <Card key={item._id} className="my-3">
                 <Card.Body>
                   <Card.Title>{item.car_mm} {item.car_model}</Card.Title>
