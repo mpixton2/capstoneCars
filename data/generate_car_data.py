@@ -100,7 +100,7 @@ with open(OUTPUT_FILE1, "w", newline="") as file:
 with open(OUTPUT_FILE2, "w", newline="") as file:
     writer = csv.writer(file)
     writer.writerow(
-        ["order_timestamp","order_payment", "order_address_num", "order_address_street", "order_address_state", "order_zip", "order_completed"]
+        ["order_id","order_timestamp","order_payment", "order_address_num", "order_address_street", "order_address_state", "order_zip", "order_completed"]
     )
     writer.writerows(data_rows_orders)
 
