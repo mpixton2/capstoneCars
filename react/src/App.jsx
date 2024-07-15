@@ -4,8 +4,8 @@ import HomePage from "./pages/HomePage";
 import CarDetailsPage from "./pages/CarDetailsPage";
 import CartPage from "./pages/CartPage";
 import Navbar from "./components/Navbar";
-import { Container } from "react-bootstrap"; 
-import 'bootstrap/dist/css/bootstrap.min.css'; 
+import { Container } from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <Container className="pt-4">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/cars/:id" component={CarDetailsPage} />
+          <Route path="/cars/:carId" element={<CarDetailsPage />} />
           <Route path="/cart" element={<CartPage />} />
         </Routes>
       </Container>
