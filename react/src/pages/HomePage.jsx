@@ -1,30 +1,37 @@
+// HomePage.js
+
 import React, { useState, useEffect } from 'react';
 import SearchBox from '../components/SearchBox';
 import CarList from '../components/CarList';
-import RecommendedCars from '../components/RecommendedCars';
-import Navbar from '../components/Navbar';
-import { Container, Row, Col } from 'react-bootstrap'; // Import necessary Bootstrap components
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
- 
+import { Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const HomePage = () => {
   const [cars, setCars] = useState([]);
-  const [recommendedCars, setRecommendedCars] = useState([]);
 
   useEffect(() => {
-    fetch('/api/cars')
-      .then(response => response.json())
-      .then(data => setCars(data))
-      .catch(error => console.error('Error fetching cars:', error));
-
-    fetch('/api/recommended-cars')
-      .then(response => response.json())
-      .then(data => setRecommendedCars(data))
-      .catch(error => console.error('Error fetching recommended cars:', error));
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/cars'); 
+        if (!response.ok) {
+          throw new Error('Failed to fetch cars');
+        }
+        const data = await response.json();
+        console.log(data); 
+        setCars(data);
+      } catch (error) {
+        console.error('Error fetching cars:', error);
+      }
+    };
+  
+    fetchData();
   }, []);
+  
+  
+  
 
   return (
-    <div className="home-page">
+    <div>
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} className="text-center">
@@ -45,7 +52,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-
-
-

@@ -14,7 +14,7 @@ function App() {
       <Container className="pt-4">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/car-details" element={<CarDetailsPage />} />
+          <Route path="/cars/:id" component={CarDetailsPage} />
           <Route path="/cart" element={<CartPage />} />
         </Routes>
       </Container>
