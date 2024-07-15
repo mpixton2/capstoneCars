@@ -42,7 +42,7 @@ const FetchCar = async (data, setCars) => {
         throw new Error(`Response status: ${response.status}`);
 
       json.append(await response.json());
-      
+
     } catch (e) {
       console.error("Error fetching from FetchResults: ", e);
     }
@@ -53,7 +53,7 @@ const FetchCar = async (data, setCars) => {
 const RecommendedCars = (props) => {
   const [data, setData] = useState('');
   const [cars, setCars] = useState('');
-  FetchResults(body, setData)
+  FetchResults(props.car, setData)
   FetchCars(data, setCars)
   return (
     <div>
