@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from '../components/Navbar';
 
 const CartPage = () => {
   const { orderId } = useParams(); // Assuming orderId is passed as a route parameter

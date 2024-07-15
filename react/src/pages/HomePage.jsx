@@ -3,6 +3,7 @@ import SearchBox from '../components/SearchBox';
 import CarList from '../components/CarList';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from '../components/Navbar';
 
 const HomePage = () => {
   const [cars, setCars] = useState([]);

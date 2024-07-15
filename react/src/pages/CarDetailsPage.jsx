@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from '../components/Navbar'; 
+import Navbar from '../components/Navbar';
 
 const CarDetailsPage = () => {
   const { carId } = useParams();
@@ -29,8 +29,7 @@ const CarDetailsPage = () => {
 
   const handleAddToCart = async () => {
     try {
-      const nextOrderId = new Date().getTime().toString(); 
-      setOrderId(nextOrderId);
+      const nextOrderId = new Date().getTime().toString();
 
       const orderResponse = await fetch('http://localhost:3000/orders', {
         method: 'POST',
@@ -39,18 +38,20 @@ const CarDetailsPage = () => {
         },
         body: JSON.stringify({
           order_id: nextOrderId,
+          order_timestamp: new Date().toISOString(),
           order_payment: 'Credit Card',
           order_address_num: '123',
           order_address_street: 'Main St',
           order_address_state: 'CA',
           order_zip: '90001',
+          order_completed: false, // Initial order state
+          // Add any other fields required by your backend
         }),
       });
       if (!orderResponse.ok) {
         throw new Error('Failed to create order');
       }
       const orderResult = await orderResponse.json();
-      console.log('Created order:', orderResult);
 
       const orderCarResponse = await fetch('http://localhost:3000/orders_cars', {
         method: 'POST',
@@ -66,9 +67,9 @@ const CarDetailsPage = () => {
         throw new Error('Failed to add car to cart');
       }
       const orderCarResult = await orderCarResponse.json();
-      console.log('Added car to cart:', orderCarResult);
 
       setOrderSuccess(true);
+      setOrderId(nextOrderId);
     } catch (error) {
       console.error('Error adding car to cart:', error);
     }
@@ -80,7 +81,7 @@ const CarDetailsPage = () => {
 
   return (
     <div>
-      <Navbar orderId={orderId} /> 
+      <Navbar orderId={orderId} />
       <Container className="pt-4">
         <div className="car-details">
           <h1>{car.car_mm} {car.car_model}</h1>
