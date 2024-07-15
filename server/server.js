@@ -123,6 +123,40 @@ app.post('/orders_cars', async (req, res) => {
     }
 });
 
+app.post('/cars/search', async (req, res) => {
+    try {
+        const order_car  = req.body;
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(orders_cars_collection);
+        const result = await collection.insertOne(order_car);
+        res.json(result);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send('Failed to add a new order_car');
+    }
+});
+
+app.post('/socks/search', async (req, res) => {
+    try {
+        // TODO: Add code that can search MongoDB based on a color value
+        // from the Search text box.
+        const { searchTerm } = req.body;
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(collectionName);
+        console.log(searchTerm)
+        const socks = await collection.find({'sockDetails.color': searchTerm}).toArray();
+res.json(socks);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send('Hmm, something doesn\'t smell right... Error searching for socks');
+    }
+});
+
+
+
+
 
 
 app.listen(PORT, () => {
