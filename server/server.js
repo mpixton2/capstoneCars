@@ -123,6 +123,35 @@ app.post('/orders_cars', async (req, res) => {
     }
 });
 
+app.post('/cars/search', async (req, res) => {
+    try {
+        const { searchTerm } = req.body;
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(cars_collection);
+        const result = await collection.find({'car_color': searchTerm}).toArray();
+        res.json(result);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send('Failed to find any cars of given color');
+    }
+});
+
+app.put('/orders/:id', async (req, res) => {
+    try {
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const { id } = req.params
+        const  body = req.body
+        console.log(id,body)
+        const collection = db.collection(orders_collection);
+        const order = await collection.updateOne({ "order_id": Number(id) }, {$set: body});
+        res.json(order)
+    }
+    catch (err) {
+        res.status(500).send("Failed to retrieve order")
+    }
+});
 
 
 app.listen(PORT, () => {
