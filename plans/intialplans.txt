@@ -1,0 +1,35 @@
+Online Store
+
+BackEnd (MongoDB)
+1. create db
+2. decide on tables and values and generate dummy data
+	tables: 
+	cars - carid(pkey), price, quantity, new/used, make, model, year, img?
+	orders - orderid (pkey), user?, timestamp/purchase date?, ordertotal, payment_num, address, completed
+	orders_cars - ordernumber(fkey), product(fkey)
+	?users - username, addressyead
+3. setup server
+4. determine write up all endpoints
+	get /cars
+	get /cars/:id
+	get /orders/:id
+	post /orders
+	post /order_cars
+	post /cars/search
+	put /order/:id
+
+FrontEnd (Node and React)
+1. Setup React enviroment with Vite
+2. Express setup
+3. Determine and design components
+	Recommendations - python
+	Car (img)
+	Car Expanded
+	Cart
+	Navigator
+	Navbar on app.jsx
+
+Analytics (Python)
+1. Access mongo db
+2. Create script with model (knn)
+3. export model as endpoint
