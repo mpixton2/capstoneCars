@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import './CheckoutPage.css';
+
 
 const CheckoutPage = () => {
   // Replace with your checkout state and logic
