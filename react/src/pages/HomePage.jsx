@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import SearchBox from '../components/SearchBox';
 import CarList from '../components/CarList';
 import Navbar from '../components/Navbar';
-import './HomePage.css'; 
+import { Container, Row, Col } from 'react-bootstrap'; // Import necessary Bootstrap components
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+ 
 
 const HomePage = () => {
   const [cars, setCars] = useState([]);
@@ -17,10 +19,21 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      <Navbar />
-      <h1>Welcome to the Car Store</h1>
-      <SearchBox />
-      <CarList cars={cars} />
+      <Container>
+        <Row className="justify-content-center">
+          <Col xs={12} className="text-center">
+            <h1>Welcome to the Car Store</h1>
+          </Col>
+          <Col xs={12} md={6} className="my-4">
+            <SearchBox />
+          </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <Col xs={12} md={8}>
+            <CarList cars={cars} />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

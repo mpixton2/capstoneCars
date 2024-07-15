@@ -1,3 +1,7 @@
 mongoimport --db tos --collection orders_cars --type csv --file C:\capstoneCars\data\orders_cars.csv --headerline
 mongoimport --db tos --collection orders --type csv --file C:\capstoneCars\data\orders.csv --headerline
 mongoimport --db tos --collection cars --type csv --file C:\capstoneCars\data\cars.csv --headerline
+
+mongoimport --db tos --collection orders_cars --type csv --file C:/3/capstoneCars/data/orders_cars.csv --headerline
+mongoimport --db tos --collection orders --type csv --file C:/3/capstoneCars/data/orders.csv --headerline
+mongoimport --db tos --collection cars --type csv --file C:/3/capstoneCars/data/cars.csv --headerline
