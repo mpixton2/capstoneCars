@@ -10,12 +10,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <Router>
-      <Navbar />
       <Container className="pt-4">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cars/:carId" element={<CarDetailsPage />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/cart/:orderId" element={<CartPage />} /> 
         </Routes>
       </Container>
     </Router>

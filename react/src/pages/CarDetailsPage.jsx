@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from '../components/Navbar'; 
 
 const CarDetailsPage = () => {
   const { carId } = useParams();
   const [car, setCar] = useState(null);
+  const [orderId, setOrderId] = useState(null);
   const [orderSuccess, setOrderSuccess] = useState(false);
 
   useEffect(() => {
@@ -27,10 +29,9 @@ const CarDetailsPage = () => {
 
   const handleAddToCart = async () => {
     try {
-      // Step 1: Generate a new unique order ID using MongoDB's ObjectId
-      const nextOrderId = new Date().getTime().toString(); // Using current timestamp as a simple unique ID
+      const nextOrderId = new Date().getTime().toString(); 
+      setOrderId(nextOrderId);
 
-      // Step 2: Create an order with the generated nextOrderId
       const orderResponse = await fetch('http://localhost:3000/orders', {
         method: 'POST',
         headers: {
@@ -51,7 +52,6 @@ const CarDetailsPage = () => {
       const orderResult = await orderResponse.json();
       console.log('Created order:', orderResult);
 
-      // Step 3: Create an entry in orders_cars linking car and order by IDs
       const orderCarResponse = await fetch('http://localhost:3000/orders_cars', {
         method: 'POST',
         headers: {
@@ -68,7 +68,6 @@ const CarDetailsPage = () => {
       const orderCarResult = await orderCarResponse.json();
       console.log('Added car to cart:', orderCarResult);
 
-      // Update state to indicate success
       setOrderSuccess(true);
     } catch (error) {
       console.error('Error adding car to cart:', error);
@@ -81,6 +80,7 @@ const CarDetailsPage = () => {
 
   return (
     <div>
+      <Navbar orderId={orderId} /> 
       <Container className="pt-4">
         <div className="car-details">
           <h1>{car.car_mm} {car.car_model}</h1>

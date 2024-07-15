@@ -37,6 +37,7 @@ const HomePage = () => {
 
   return (
     <div>
+      <Navbar />
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} className="text-center">
