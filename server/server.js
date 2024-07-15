@@ -125,38 +125,33 @@ app.post('/orders_cars', async (req, res) => {
 
 app.post('/cars/search', async (req, res) => {
     try {
-        const order_car  = req.body;
-        const client = await MongoClient.connect(url);
-        const db = client.db(dbName);
-        const collection = db.collection(orders_cars_collection);
-        const result = await collection.insertOne(order_car);
-        res.json(result);
-    } catch (err) {
-        console.error('Error:', err);
-        res.status(500).send('Failed to add a new order_car');
-    }
-});
-
-app.post('/socks/search', async (req, res) => {
-    try {
-        // TODO: Add code that can search MongoDB based on a color value
-        // from the Search text box.
         const { searchTerm } = req.body;
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
-        const collection = db.collection(collectionName);
-        console.log(searchTerm)
-        const socks = await collection.find({'sockDetails.color': searchTerm}).toArray();
-res.json(socks);
+        const collection = db.collection(cars_collection);
+        const result = await collection.find({'car_color': searchTerm}).toArray();
+        res.json(result);
     } catch (err) {
         console.error('Error:', err);
-        res.status(500).send('Hmm, something doesn\'t smell right... Error searching for socks');
+        res.status(500).send('Failed to find any cars of given color');
     }
 });
 
-
-
-
+app.put('/orders/:id', async (req, res) => {
+    try {
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const { id } = req.params
+        const  body = req.body
+        console.log(id,body)
+        const collection = db.collection(orders_collection);
+        const order = await collection.updateOne({ "order_id": Number(id) }, {$set: body});
+        res.json(order)
+    }
+    catch (err) {
+        res.status(500).send("Failed to retrieve order")
+    }
+});
 
 
 app.listen(PORT, () => {
