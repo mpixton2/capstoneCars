@@ -172,19 +172,31 @@ app.post('/orders', async (req, res) => {
     }
   });
 
-app.post('/cars/search', async (req, res) => {
+  app.post('/cars/search', async (req, res) => {
     try {
         const { searchTerm } = req.body;
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
         const collection = db.collection(cars_collection);
-        const result = await collection.find({ 'car_color': searchTerm }).toArray();
+        
+        const regex = new RegExp(searchTerm, 'i');
+        
+        const query = {
+            $or: [
+                { 'car_color': { $regex: regex } },
+                { 'car_model': { $regex: regex } },
+                { 'used': searchTerm.toLowerCase() === 'used' }  
+            ]
+        };
+
+        const result = await collection.find(query).toArray();
         res.json(result);
     } catch (err) {
         console.error('Error:', err);
-        res.status(500).send('Failed to find any cars of given color');
+        res.status(500).send('Failed to find any cars based on the search criteria');
     }
 });
+
 
 app.put('/orders/:id', async (req, res) => {
     try {

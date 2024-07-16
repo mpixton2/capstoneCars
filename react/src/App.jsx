@@ -10,7 +10,7 @@ import CheckoutPage from "./pages/CheckoutPage"
 function App() {
   return (
     <Router>
-      <Container className="pt-4">
+      <Container className="">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cars/:carId" element={<CarDetailsPage />} />
