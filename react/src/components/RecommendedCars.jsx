@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { ListGroup, Row, Col } from 'react-bootstrap';
 
 const PORT_NUMBER = 5000;
-const END_POINT1 = `http://cors-anywhere.herokuapp.com/http://127.0.0.1:${PORT_NUMBER}`;
+const END_POINT1 = `http://0.0.0.0:50001/http://127.0.0.1:${PORT_NUMBER}`;
 const END_POINT2 = 'http://localhost:3000'
 
 const FetchResults = async (body, setData) => {
