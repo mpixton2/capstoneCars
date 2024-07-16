@@ -9,10 +9,11 @@ import Navbar from '../components/Navbar';
 const CheckoutPage = () => {
   const { orderId } = useParams();
   const [formData, setFormData] = useState({
-    // Define state for form fields
     name: '',
     address: '',
-    // Add more fields as needed
+    state: '',
+    zip: '',
+    cardInfo: '',
   });
 
   const handleChange = (e) => {
@@ -68,7 +69,39 @@ const CheckoutPage = () => {
               required
             />
           </Form.Group>
-          {/* Add more form fields as needed */}
+          <Form.Group controlId="formState">
+            <Form.Label>State</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your state"
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formZip">
+            <Form.Label>Zip Code</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your zip code"
+              name="zip"
+              value={formData.zip}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formCardInfo">
+            <Form.Label>Card Information</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your card information"
+              name="cardInfo"
+              value={formData.cardInfo}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
           <Button variant="primary" type="submit">
             Submit
           </Button>
