@@ -33,7 +33,7 @@ const CartPage = () => {
   useEffect(() => {
     const fetchCarDetails = async () => {
       const carIds = orderCars.map(item => item.car_id);
-      const uniqueCarIds = [...new Set(carIds)]; // Ensure unique car IDs
+      const uniqueCarIds = [...new Set(carIds)]; 
 
       try {
         const promises = uniqueCarIds.map(async (carId) => {
@@ -57,11 +57,9 @@ const CartPage = () => {
 
         const carDetailsArray = await Promise.all(promises);
 
-        // Populate pricesArray with fetched prices
         const updatedPricesArray = carDetailsArray.map(car => car.details.car_price);
         setPricesArray(updatedPricesArray);
 
-        // Update carDetailsMap with fetched details
         const updatedCarDetailsMap = { ...carDetailsMap };
         carDetailsArray.forEach((car) => {
           updatedCarDetailsMap[car.carId] = car.details;
@@ -79,7 +77,6 @@ const CartPage = () => {
   }, [orderCars, carDetailsMap]);
 
   useEffect(() => {
-    // Calculate total price whenever pricesArray changes
     let total = 0;
     pricesArray.forEach((price) => {
       total += price;

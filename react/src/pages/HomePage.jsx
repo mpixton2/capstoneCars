@@ -23,7 +23,7 @@ const HomePage = () => {
         const totalCountResponse = await fetch(`http://localhost:3000/cars/count`);
         const totalCountData = await totalCountResponse.json();
         const totalCars = totalCountData.count;
-        setTotalPages(Math.ceil(totalCars / 10)); // Assuming 10 cars per page
+        setTotalPages(Math.ceil(totalCars / 10)); 
       } catch (error) {
         console.error('Error fetching cars:', error);
       }

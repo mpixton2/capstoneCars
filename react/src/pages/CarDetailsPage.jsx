@@ -10,7 +10,6 @@ const CarDetailsPage = () => {
   const [orderId, setOrderId] = useState(null);
   const [orderSuccess, setOrderSuccess] = useState(false);
 
-  // Define mapping of car models to image URLs
   const carImages = {
     "Audi A3": "https://images.dealer.com/ddc/vehicles/2024/Audi/A3/Sedan/still/front-left/front-left-640-en_US.jpg",
     "Audi A6": "https://content-images.carmax.com/stockimages/2021/audi/a6/st2400-089-evoxwebmedium.png",

@@ -36,6 +36,7 @@ def predict():
     nnresults = model.kneighbors(data_trans, n_neighbors = 3)[1]
 
     # Return the prediction
+    print(jsonify(nnresults.tolist()))
     return jsonify(nnresults.tolist())
 
 if __name__ == '__main__':
