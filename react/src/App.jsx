@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import CarDetailsPage from "./pages/CarDetailsPage";
 import CartPage from "./pages/CartPage";
-import Navbar from "./components/Navbar";
 import { Container } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 

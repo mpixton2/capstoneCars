@@ -120,16 +120,18 @@ app.get('/orders_cars/:id', async (req, res) => {
     try {
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
-        const { id } = req.params
-        console.log(id)
-        const collection = await db.collection(orders_cars_collection);
-        const orders_cars = await collection.find({ "order_id": Number(id) });
+        const { id } = req.params;
+        
+        const collection = db.collection(orders_cars_collection);
 
-        res.json(await orders_cars.toArray())
-    }
-    catch (err) {
-        console.error(err)
-        res.status(500).send("Failed to retrieve order")
+        let query = { "order_id": id };
+
+        const orderCars = await collection.find(query).toArray();
+
+        res.json(orderCars);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to retrieve order cars");
     }
 });
 
@@ -208,7 +210,7 @@ app.delete('/orders_cars/:id', async (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection(orders_cars_collection);
 
-        const result = await collection.deleteOne({ _id: ObjectId(id) });
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
         client.close();
 
         if (result.deletedCount === 1) {
