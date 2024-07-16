@@ -23,20 +23,21 @@ def index():
     return jsonify({})
 
 @app.route('/api/predict', methods=['POST'])
-# @cross_origin()
 def predict():
-   # Get the request data
-    data = pd.DataFrame(request.get_json(force=True),index=[0])
+    try:
+        data = request.get_json(force=True)
+        df = pd.DataFrame(data, index=[0])
 
+        feature_cols = ['car_year', 'car_used', 'car_mm', 'car_color']
+        X = df[feature_cols]
 
-    feature_cols = ['car_year', 'car_used','car_mm','car_color']
-    X = data[feature_cols]
-    
-    data_trans = enc.transform(X)
-    nnresults = model.kneighbors(data_trans, n_neighbors = 3)[1]
+        data_trans = enc.transform(X)
+        nn_results = model.kneighbors(data_trans, n_neighbors=3)[1]
 
-    # Return the prediction
-    return jsonify(nnresults.tolist())
+        return jsonify(nn_results.tolist())
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(port=5000)

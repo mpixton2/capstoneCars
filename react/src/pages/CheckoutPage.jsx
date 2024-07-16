@@ -33,11 +33,9 @@ const CheckoutPage = () => {
       if (!response.ok) {
         throw new Error('Failed to update order');
       }
-      // Optionally handle success or navigate to a success page
       console.log('Order updated successfully');
     } catch (error) {
       console.error('Error updating order:', error);
-      // Handle error (e.g., show error message to user)
     }
   };
 
