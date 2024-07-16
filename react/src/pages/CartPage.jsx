@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Container, Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/Navbar';
@@ -131,8 +131,8 @@ const CartPage = () => {
             )}
             <div className="mt-4">
               <h4>Total Price: ${totalPrice.toFixed(2)}</h4>
-              <Button variant="primary" onClick={() => console.log('Checkout button clicked')}>Checkout</Button>
-
+              <Link to={`/checkout/${orderId}`} className="btn btn-primary">Checkout</Link>
+            
             </div>
           </div>
         )}
