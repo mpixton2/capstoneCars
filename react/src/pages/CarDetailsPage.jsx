@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Container, Button, Image } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/Navbar';
+import RecommendedCars from '../components/RecommendedCars';
 
 const CarDetailsPage = () => {
   const { carId } = useParams();
@@ -115,6 +116,7 @@ const CarDetailsPage = () => {
           </Button>
         </div>
       </Container>
+      <RecommendedCars car={car}/>
     </div>
   );
 };
